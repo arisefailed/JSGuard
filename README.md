@@ -11,7 +11,7 @@
 *Made with 💚 by Arise*
 
 </div>
-
+![JSGuard Banner](jsguard.png)
 ---
 
 ## ✨ Features
