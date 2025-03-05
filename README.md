@@ -12,9 +12,10 @@
 
 </div>
 
-![JSGuard Banner](jsguard.png)
 <div align="center">
-  ![JSGuard Banner](jsguard.png)
+  <p align="center">
+    <img src="jsguard.png" alt="JSGuard Banner">
+  </p>
 </div>
 
 ## ✨ Features
