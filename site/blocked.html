@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Blocked - JSGuard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0a0a12;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -ms-overflow-style: none; 
+            scrollbar-width: none;
+            overflow: hidden;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .blocked-container {
+            position: relative;
+            z-index: 1;
+            background: rgba(64, 77, 184, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(64, 77, 184, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(64, 77, 184, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .warning-icon {
+            font-size: 4rem;
+            color: #ff3e3e;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .blocked-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #404db8, #5c66c2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .blocked-message {
+            color: #8a8aa3;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .error-details {
+            background: rgba(255, 62, 62, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 62, 62, 0.2);
+        }
+
+        .error-code {
+            font-family: monospace;
+            color: #ff3e3e;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            color: #404db8;
+            margin-bottom: 2rem;
+        }
+
+        .support-link {
+            color: #404db8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .support-link:hover {
+            color: #5c66c2;
+        }
+
+        .jsguard-badge {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8a8aa3;
+            font-size: 0.9rem;
+        }
+
+        .jsguard-badge i {
+            color: #404db8;
+        }
+
+        @media (max-width: 480px) {
+            .blocked-container {
+                padding: 2rem;
+            }
+            .blocked-title {
+                font-size: 1.5rem;
+            }
+            .warning-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="blocked-container">
+        <i class="fas fa-exclamation-triangle warning-icon"></i>
+        <h1 class="blocked-title">Access Blocked</h1>
+        <p class="blocked-message">
+            Your access to this website has been temporarily blocked due to suspicious activity. 
+            This is an automated action by JSGuard DDoS Protection System.
+        </p>
+        <div class="error-details">
+            <div class="error-code">Error Code: JSG-403</div>
+            <div>IP Address: <span id="userIP">Loading...</span></div>
+        </div>
+        <div class="timer">
+            Block expires in: <span id="countdown">5:00</span>
+        </div>
+        <p>
+            If you believe this is a mistake, please contact 
+            <a href="#" class="support-link">website support</a>.
+        </p>
+        <div class="jsguard-badge">
+            <i class="fas fa-shield-alt"></i> Protected by JSGuard
+        </div>
+    </div>
+
+    <script>
+        // Initialize particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: '#404db8' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.3, random: true },
+                size: { value: 2, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#404db8',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out'
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 }
+                }
+            },
+            retina_detect: true
+        });
+
+        function startCountdown(duration) {
+            let timer = duration;
+            const countdownElement = document.getElementById('countdown');
+            
+            const interval = setInterval(() => {
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                
+                countdownElement.textContent = 
+                    minutes.toString().padStart(1, '0') + ':' + 
+                    seconds.toString().padStart(2, '0');
+                
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    countdownElement.textContent = 'Expired';
+                }
+            }, 1000);
+        }
+
+        startCountdown(300);
+
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('userIP').textContent = data.ip;
+            })
+            .catch(() => {
+                document.getElementById('userIP').textContent = 'Unable to fetch IP';
+            });
+    </script>
+</body>
+</html>
