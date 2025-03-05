@@ -13,6 +13,9 @@
 </div>
 
 ![JSGuard Banner](jsguard.png)
+<div align="center">
+  ![JSGuard Banner](jsguard.png)
+</div>
 
 ## ✨ Features
 
